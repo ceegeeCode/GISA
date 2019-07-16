@@ -1,0 +1,51 @@
+###############################################################
+# Generating plots for links-paper/Supplementary
+###############################################################
+
+'''
+Usage:
+
+To run this script from pymol first run the underlying python, git_Anomalies.py. So first import this to your machine;
+suppose you've placed this in C:\path\to\python\scripts. Then fire off in the pymol-command line 
+run C:\path\to\python\scripts\gi_Anomalies.py
+
+Next suppose you have imported this script (gi_Anomalies_restrictedSearch.txt) to C:\path\to\pymol\scripts. You can then run 
+it in pymol by firing 
+@C:\path\to\pymol\scripts\gi_Anomalies_restrictedSearch.txt
+in the pymol command line.
+
+You will have to make some obvious changes in the script below: replace paths for where the output from the C-code is placed and the 
+file names. Here results from the top100 set (www.kinemage.com) were used, and for C-code output from other sets you must of 
+course run the C-code for that set, e.g. as that for generating the plots in the Supplementary Data for the top8000 set.
+
+You may also want to change some of the parameter values set in the python functions below (e.g. set plotLinksTop10_b = 0, 
+plotPokesTop10_b = 1 for getting only the top10 pokes out); info on the python functions can be found in the python script (gi_Anomalies.py). 
+
+'''
+
+
+import matplotlib.pyplot as plt
+
+root = r'C:\Users\Christian\Bioinformatics\papers\geometric_anomalies_in_folds\c_code\results_C_5th\double_precision'
+
+
+#top100 set:
+
+#restricted search:
+pokeLength = 10
+loopLength = 30
+fileName = root + r'\ClosedLoopChars_minmax_computeGI_top100_loops' + str(loopLength) + '_pokeLength' + str(pokeLength) + '.txt'
+print "I'm looking in: ", fileName
+dict_top100_cl, links_top100_cl, pokesAll_top100_cl, pokesMin_top100_cl, pokesMax_top100_cl = readResultsCcode_closedLoops(inputFileName = fileName, normalize_b = 1, minMaxOut_b =1)
+#sort the results and plot distributions (parts of) and link/poke examples (outside cutOff's)
+chainsFile = root + r'\chains_closed_loops_top100.txt'
+titlePokesI = 'Distribution of writhe values for potential pokes of length ' + str(pokeLength) 
+titlePokesII = ' writhe values for potential pokes of length ' + str(pokeLength) 
+pokes_top100_cl = pokesAll_top100_cl, pokesMin_top100_cl, pokesMax_top100_cl
+fig = histoClosedLoops_minMax(links_top100_cl, pokes_top100_cl, pokesMinMax_b =1, color = 'lightgrey', binsLinks=100, binsPokes =100, linksDistrPlotsInSubPlots_b =2, pokesDistrPlotsInSubPlots_b =1, linksShowTopNr = 100, pokesShowTopNr = 100, cutOffLinks = 0.85, cutOffPokes = 0.8, plotPokeExs_b = 0, plotLinkExs_b = 0, plotLinksTop10_b = 0, plotPokesTop10_b = 1, chainsFile = chainsFile, intervalLinks = [-1.05,-0.95], intervalPokes = [0.342, 0.343], plotExsInInt_b =0, titleLinks = 'Distribution of writhe values', titlePokesI = titlePokesI, titlePokesII = titlePokesII, stringPattern = '([\S]+)([^\w]+)([\w]+)', lowerPercentile = 0.001, upperPercentile = 0.999, use_pymol_b = 1, plotDistributions_b =0)
+
+#close plots generated in python:
+[plt.close() for i in range(100)]
+
+
+
