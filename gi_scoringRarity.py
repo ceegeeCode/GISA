@@ -2,7 +2,7 @@
 """
 Created on Sat Jan 27 21:45:21 2018
 
-@author: Christian
+@author: Christian Grønbæk
 """
 
 '''
@@ -12,18 +12,8 @@ import gi_scoringRarity as gisr
 
 
 #top8000 ####################################
-#On pc
-root = r'C:\Users\Christian\Sync\Bioinformatics\papers\structural_alignment_by_GIs\results\v10\top8000'
 
-
-file1 = root + '\RarityScan0_ScoresPairs_windowslgth_30_2_order_1_0_top8000_top8000_norm_1invs__winCovType0_threshMut2.00_scoreByAbsMutualWrithe.txt'
-file2 = root + '\RarityScan1_ScoresPairs_windowslgth_30_2_order_1_0_top8000_top8000_1wins_norm_1invs_0mmsPairs_20bins1_winCovType0_threshMut2.00.txt'
-file3 = root + '\RarityScan1_ScoresPairs_windowslgth_30_2_order_1_1_top8000_top8000_1wins_norm_2invs_0mmsPairs_20bins1_winCovType0_threshMut2.00.txt'
-file4 = root + '\RarityScan2_ScoresPairs_windowslgth_30_2_order_2_1_top8000_top8000_1wins_norm_5invs_0mms_1invsPairs_0mmsPairs_20bins10_winCovType0_threshMut2.00.txt'
-file5 = root + '\RarityScan2_ScoresPairs_windowslgth_30_2_order_2_1_top8000_top8000_1wins_norm_5invs_0mms_2invsPairs_0mmsPairs_20bins10_winCovType0_threshMut2.00.txt'
-
-#On mac:
-root = r'/Users/newUser/Documents/clouds/Sync/Bioinformatics/papers/structural_alignment_by_GIs/results/v10/top8000'
+root = r'/your/path/to/scan/results/for/top8000'
 
 file1 = root + '/RarityScan0_ScoresPairs_windowslgth_30_2_order_1_0_top8000_top8000_norm_1invs__winCovType0_threshMut2.00_scoreByAbsMutualWrithe.txt'
 file2 = root + '/RarityScan1_ScoresPairs_windowslgth_30_2_order_1_0_top8000_top8000_1wins_norm_1invs_0mmsPairs_20bins1_winCovType0_threshMut2.00.txt'

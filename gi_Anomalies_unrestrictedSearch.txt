@@ -5,8 +5,8 @@
 '''
 Usage:
 
-To run this script from pymol first run the underlying python, gi_Anomalies.py. So first import this to your machine;
-suppose you've placed this in C:\path\to\python\scripts. Then fire this off in the pymol-command line 
+To run this script from pymol first run the underlying python, git_Anomalies.py. So first import this to your machine;
+suppose you've placed this in C:\path\to\python\scripts. Then fire off in the pymol-command line 
 run C:\path\to\python\scripts\gi_Anomalies.py
 
 Next suppose you have imported this script (gi_Anomalies_unrestrictedSearch.txt) to C:\path\to\pymol\scripts. You can then run 
@@ -18,33 +18,53 @@ You will have to make some obvious changes in the script below: replace paths fo
 file names. Here results from the top100 set (www.kinemage.com) were used, and for C-code output from other sets you must of 
 course run the C-code for that set, e.g. as that for generating the plots in the Supplementary Data for the top8000 set.
 
-You may also want to chan  ge some of the parameter values set in the python functions below (e.g. set plotLinksTop10_b = 0, 
+You may also want to change some of the parameter values set in the python functions below (e.g. set plotLinksTop10_b = 0, 
 plotPokesTop10_b = 1 for getting only the top10 pokes out); info on the python functions can be found in the python script (gi_Anomalies.py). 
+
+The pymol plots generated will appear as a collection of plots (viz for the collection of e.g. links or pokes that you have desired via the 
+settings in the python-function, histoClosedLoops_minMax), each structure shown from three different angles. You may then deselect all, and
+select one particular structure at a time to look at. The labeling is put on an artificial residue (named with something like "forLabel"); 
+to show it you have to select it; to make it appear you may have to "un-dim" as much as you can, showing all colors as much as possible, the 
+label will appear.   
 
 '''
 
 
 import matplotlib.pyplot as plt
 
-
 #top100 set:
 
-root = r'C:\Users\Christian\Sync\Bioinformatics\papers\structural_alignment_by_GIs\results\v10\top100'
+root = r’\your\path\to\results\for\top100'
 
-
-#unrestricted search:
 set = 'top100'
 
-
 subChainLength = 30
+#Ex file name: SubChainPairChars_minmax_computeGI_top100_subChainLength_30
 fileName= root + r'\SubChainPairChars_minmax_computeGI_' + set + '_subChainLength_' + str(subChainLength) + '.txt'
+
+#In case your pymol runs on your own machine while the results were generated on a server: replace the server's path, and have the pdb-files on your own machine: 
+fileNameNew = root + r'\SubChainPairChars_minmax_computeGI_' + set + '_subChainLength_' + str(subChainLength) +'_pathReplaced.txt'
+serverDataRoot =  ‘server:/your/path/to/Kinemage/pdbFiles//top100H/'
+thisPCdataRoot = r’C:\\your\\path\\to\\Kinemage\\PDBfiles\\top100H\\'
+replacePath(fileName, fileNameNew, serverDataRoot, thisPCdataRoot)
+fileName = fileNameNew
+
+print "I'm looking in file: ", fileName
 dict_top100, extremeWrithes_top100_All, extremeWrithes_top100_Min, extremeWrithes_top100_Max = readResultsCcode_closedLoops(inputFileName = fileName, linksAndPokes_b = 0, minMaxOut_b = 1, normalize_b = 1)
 #sort the results and plot distributions (parts of) and link/poke examples (outside cutOff's)
-chainsFile = root + r'\chains_subChainPairs_' + set + '.txt'
+chainsFile = root + r'\chains_subchain_pairs_' + set + '.txt'
+
+#again replace paths if pymol is on your own machine:
+chainsFileNew = root + r'\chains_subchain_pairs_' + set +'_pathReplaced.txt'
+replacePath(chainsFile, chainsFileNew, serverDataRoot, thisPCdataRoot, replaceEntryAt = 3)
+chainsFile = chainsFileNew
+
 #convert structure and then plot
 extremeWrithes_top100 = extremeWrithes_top100_All, extremeWrithes_top100_Min, extremeWrithes_top100_Max
 histoSubChainPairs_minMax(extremeWrithes_top100, bins=100, color = 'lightgrey', addSubplotToFirstPlot_b = 1, distrPlotsInSubPlots_b =0, showTopNr = 10, plotTop10_b = 1, plotExs_b = 0, chainsFile = chainsFile, interval = [-4,-3], plotExsInInt_b =0, stringPattern = '([\S]+)([^\w]+)([\w]+)', subChainLgth =  15, lowerPercentile = 0.05, upperPercentile = 0.95, use_pymol_b = 1, plotDistributions_b =0)
 
 #close plots generated in python:
 [plt.close() for i in range(100)]
+
+
 

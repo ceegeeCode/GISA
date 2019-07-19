@@ -5,8 +5,8 @@
 '''
 Usage:
 
-To run this script from pymol first run the underlying python, git_Anomalies.py. So first import this to your machine;
-suppose you've placed the script in C:\path\to\python\scripts. Then fire off in the pymol-command line 
+To run this script from pymol first run the underlying python, gi_Anomalies.py. So first import this to your machine;
+suppose you've placed this in C:\path\to\python\scripts. Then fire off in the pymol command line 
 run C:\path\to\python\scripts\gi_Anomalies.py
 
 Next suppose you have imported this script (gi_Anomalies_restrictedSearch.txt) to C:\path\to\pymol\scripts. You can then run 
@@ -19,7 +19,13 @@ file names. Here results from the top100 set (www.kinemage.com) were used, and f
 course run the C-code for that set, e.g. as that for generating the plots in the Supplementary Data for the top8000 set.
 
 You may also want to change some of the parameter values set in the python functions below (e.g. set plotLinksTop10_b = 0, 
-plotPokesTop10_b = 1 for getting only the top10 pokes out); info on the python functions can be found in the python script (gi_Anomalies.py). 
+plotPokesTop10_b = 1 for getting only the top10 pokes out); info on the python functions can be found in the python script (git_Anomalies.py). 
+
+The pymol plots generated will appear as a collection of plots (viz for the collection of e.g. links or pokes that you have desired via the 
+settings in the python-function, histoClosedLoops_minMax), each structure shown from three different angles. You may then deselect all, and
+select one particular strcture at a time to look at. The labeling is put on an artificial residue (named with something like "forLabel"); 
+to show it you have to select it; to make it appear you may have to "un-dim" as much as you can, showing all colors as much as possible, the 
+label will appear.   
 
 '''
 
@@ -27,23 +33,44 @@ import matplotlib.pyplot as plt
 
 #top100 set:
 
-root = r'C:\Users\Christian\Sync\Bioinformatics\papers\structural_alignment_by_GIs\results\v10\top100'
+root = r’\your\path\to\results\for\top100'
 
 set = 'top100'
 
-#restricted search:
+
+#Restricted search (here 1bpi is found):
 pokeLength = 10
 loopLength = 30
-#Ex file name: ClosedLoopChars_minmax_computeGI_top100_closedLoopLength_30_closedLoopDist_7.0_pokeLength10
+#Ex file name : ClosedLoopChars_minmax_computeGI_top100_closedLoopLength_30_closedLoopDist_7.0_pokeLength10
 fileName = root + r'\ClosedLoopChars_minmax_computeGI_'+ set + '_closedLoopLength_' +str(loopLength) + '_closedLoopDist_7.0' + '_pokeLength' + str(pokeLength) +'.txt'
-print "I'm looking in: ", fileName
-dict_top100_cl, links_top100_cl, pokesAll_top100_cl, pokesMin_top100_cl, pokesMax_top100_cl = git.readResultsCcode_closedLoops(inputFileName = fileName, normalize_b = 1, minMaxOut_b =1)
+
+#In case your pymol runs on your own machine while the results were generated on a server: replace the server's path, and have the pdb-files on your own machine: 
+fileNameNew = root + r'\ClosedLoopChars_minmax_computeGI_'+ set + '_closedLoopLength_' +str(loopLength) + '_closedLoopDist_7.0' + '_pokeLength' + str(pokeLength) +'_pathReplaced.txt'
+serverDataRoot =  ‘server:/your/path/to/Kinemage/pdbFiles//top100H/'
+thisPCdataRoot = r’C:\\your\\path\\to\\Kinemage\\PDBfiles\\top100H\\'
+replacePath(fileName, fileNameNew, serverDataRoot, thisPCdataRoot)
+fileName = fileNameNew
+
+print "I'm looking in file: ", fileName
+dict_top100_cl, links_top100_cl, pokesAll_top100_cl, pokesMin_top100_cl, pokesMax_top100_cl = readResultsCcode_closedLoops(inputFileName = fileName, normalize_b = 1, minMaxOut_b =1)
 #sort the results and plot distributions (parts of) and link/poke examples (outside cutOff's)
+
 chainsFile = root + r'\chains_closed_loops_' + set +'.txt'
+#again replace paths if pymol is on your own machine:
+chainsFileNew = root + r'\chains_closed_loops_' + set +'_pathReplaced.txt'
+replacePath(chainsFile, chainsFileNew, serverDataRoot, thisPCdataRoot, replaceEntryAt = 3)
+chainsFile = chainsFileNew
+
 titlePokesI = 'Distribution of writhe values for potential pokes of length ' + str(pokeLength) 
 titlePokesII = ' writhe values for potential pokes of length ' + str(pokeLength) 
 pokes_top100_cl = pokesAll_top100_cl, pokesMin_top100_cl, pokesMax_top100_cl
-fig = histoClosedLoops_minMax(links_top100_cl, pokes_top100_cl, pokesMinMax_b =1, color = 'lightgrey', binsLinks=100, binsPokes =100, linksDistrPlotsInSubPlots_b =2, pokesDistrPlotsInSubPlots_b =1, linksShowTopNr = 100, pokesShowTopNr = 100, cutOffLinks = 0.85, cutOffPokes = 0.8, plotPokeExs_b = 0, plotLinkExs_b = 0, plotLinksTop10_b = 0, plotPokesTop10_b = 1, chainsFile = chainsFile, intervalLinks = [-1.05,-0.95], intervalPokes = [0.342, 0.343], plotExsInInt_b =0, titleLinks = 'Distribution of writhe values', titlePokesI = titlePokesI, titlePokesII = titlePokesII, stringPattern = '([\S]+)([^\w]+)([\w]+)', lowerPercentile = 0.001, upperPercentile = 0.999, use_pymol_b = 1, plotDistributions_b =0)
+plotLinksTop10_b = 0
+plotPokesTop10_b = 1
+fig = histoClosedLoops_minMax(links_top100_cl, pokes_top100_cl, pokesMinMax_b =1, color = 'lightgrey', binsLinks=100, binsPokes =100, linksDistrPlotsInSubPlots_b =2, pokesDistrPlotsInSubPlots_b =1, linksShowTopNr = 100, pokesShowTopNr = 100, cutOffLinks = 0.85, cutOffPokes = 0.8, plotPokeExs_b = 0, plotLinkExs_b = 0, plotLinksTop10_b = plotLinksTop10_b , plotPokesTop10_b = plotPokesTop10_b , chainsFile = chainsFile, intervalLinks = [-1.05,-0.95], intervalPokes = [0.342, 0.343], plotExsInInt_b =0, titleLinks = 'Distribution of writhe values', titlePokesI = titlePokesI, titlePokesII = titlePokesII, stringPattern = '([\S]+)([^\w]+)([\w]+)', lowerPercentile = 0.001, upperPercentile = 0.999, use_pymol_b = 1, plotDistributions_b =0)
+
+#for near 0/moderate value examples:
+#histoClosedLoops_minMax(links_top100_cl, pokes_top100_cl, binsLinks=100, binsPokes =100, colorMin = 'lightblue', color = 'blue', colorMax = 'blue',  elevAzimList = [[15,-45],[160,-45],[-160,-130]], linksPokesDistrInOnePlot_b =0, linksDistrPlotsInSubPlots_b =1, pokesDistrPlotsInSubPlots_b =1,cutOffLinks = 0.9, cutOffPokes = 0.85, linksShowTopNr = 100, pokesShowTopNr = 100, plotLinkExs_b = 0, plotPokeExs_b = 0, plotPokesTop10_b = 0,chainsFile = chainsFile, intervalLinks = [0,0.00001], intervalPokes = [0.25,0.251], plotExsInInt_b =1, stringPattern = '([\S]+)([^\w]+)([\w]+)', titlePokesI = titlePokesI, titlePokesII = titlePokesII)
+
 
 #close plots generated in python:
 [plt.close() for i in range(100)]
