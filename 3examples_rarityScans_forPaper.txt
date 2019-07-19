@@ -23,20 +23,11 @@ PDB files for back ground: top8000
 Query PDB files: top100
 
 
-DIR_PATH_DB=/isdata/kroghgrp/tkj375/data/structural/Kinemage/top8000_chains_70
-DIR_PATH_OUT_DB=/isdata/kroghgrp/tkj375/GISA_unix/results/v10/top8000
+DIR_PATH_DB=/your/path/to//Kinemage/PDBfiles/top8000_chains_70
+DIR_PATH_OUT_DB=/your/path/to/GISA/output/top8000
 
-DIR_PATH_DB=/isdata/kroghgrp/tkj375/data/structural/Kinemage/top100H
-DIR_PATH_OUT_DB=/isdata/kroghgrp/tkj375/GISA_unix/results/v10/top100
-
-DIR_PATH_QUERY=/isdata/kroghgrp/tkj375/data/structural/Kinemage/top100H
-DIR_PATH_OUT_QUERY=/isdata/kroghgrp/tkj375/GISA_unix/results/v10/top100
-
-DIR_PATH_QUERY=/isdata/kroghgrp/tkj375/data/structural/Kinemage/3links
-DIR_PATH_OUT_QUERY=/isdata/kroghgrp/tkj375/GISA_unix/results/v10/top100
-
-DIR_PATH_QUERY=/isdata/kroghgrp/tkj375/data/structural/CATH/CATH_test1
-DIR_PATH_OUT_QUERY=/isdata/kroghgrp/tkj375/GISA_unix/results/v10/CATH_test1
+DIR_PATH_QUERY=/your/path/to//Kinemage/PDBfiles/top100H
+DIR_PATH_OUT_QUERY=/your/path/to/GISA/output/top100
 
 ————————————————————————————————————————————————————————————————————————————————————————————————————————
 RarityScan0 (flavour: rar0)
