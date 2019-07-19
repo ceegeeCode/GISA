@@ -1,0 +1,45 @@
+
+This file contains examples of explicit commands needed for a run of GISA  for the restricted search and for the unrestricted search..
+
+OBS: IF YOU COPY THE COMMADS BELOW DIRECTLY ONTO A COMMAND LINE, BE VERY CAREFUL TO CHECK THAT ALL THE PARAMETERS ARE READ IN PROPERLY (WHEN YOU RUN THE A COMMAND THE CODE WILL INFORM YOU ABOUT 
+WHICH PARAMTERS WERE READ IN ADN A T WHAT VALUE)
+
+
+————————————————————————————————————————————————————————————————————————————————————————————————————————
+Compilation
+————————————————————————————————————————————————————————————————————————————————————————————————————————
+If you want to compile the code your self, this is done by:
+
+gcc GISA_main_v10_unix.c -o GISA_main_v10_unix.o GISA_v10_unix.c dataTypesMatching_v3_unix.c mathUtils.c -lm
+
+
+————————————————————————————————————————————————————————————————————————————————————————————————————————
+Paths to files and output
+————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+#For top100
+DIR_PATH_DB=/isdata/kroghgrp/tkj375/data/structural/Kinemage/top100H
+DIR_PATH_OUT_DB=/isdata/kroghgrp/tkj375/GISA_unix/results/v10/top100
+DB_NAME=top100
+
+
+#For top8000:
+DIR_PATH_DB=/isdata/kroghgrp/tkj375/data/structural/Kinemage/top8000_chains_70
+DIR_PATH_OUT_DB=/isdata/kroghgrp/tkj375/GISA_unix/results/v10/top8000
+DB_NAME=top8000
+
+
+
+————————————————————————————————————————————————————————————————————————————————————————————————————————
+GISA runs
+————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+
+#Restricted search (pairs of almost closed loops, length 30, pokes length 10):
+GISA_main_v10_unix.o -o1 -a0 -C0 -d$DIR_PATH_DB -D$DB_NAME -L30 -l10 -u1 -O$DIR_PATH_OUT_DB
+
+
+#Unrestricted search (pairs of sub-chains of length 30):
+GISA_main_v10_unix.o -o1 -a0 -C0 -d$DIR_PATH_DB -D$DB_NAME -L30 -m1 -O$DIR_PATH_OUT_DB
+
+

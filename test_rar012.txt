@@ -1,0 +1,115 @@
+
+
+————————————————————————————————————————————————————————————————————————————————————————————————————————
+Paths to files and output
+———————————————————————————————————————————————————————————————————————————————————————————————————————-
+
+PDB files for back ground: top8000
+Query PDB files: top100
+
+
+DIR_PATH_DB=/isdata/kroghgrp/tkj375/data/structural/Kinemage/top8000_chains_70
+DIR_PATH_OUT_DB=/isdata/kroghgrp/tkj375/GISA_unix/results/v10/top8000
+
+DIR_PATH_QUERY=/isdata/kroghgrp/tkj375/data/structural/Kinemage/top100H
+DIR_PATH_OUT_QUERY=/isdata/kroghgrp/tkj375/GISA_unix/results/v10/top100
+
+
+
+————————————————————————————————————————————————————————————————————————————————————————————————————————
+RarityScan0 (flavour: rar0)
+————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+
+
+#Use the abs-mutual writhe per structure (-u0). Create the back ground of scores to be used to query e.g top100 against top8000. So we first query top8000 against itself; threshold on mutual writhe is set to 5 (-T5):
+SAonGISA_main_v10_unix.o -Frar0 -u0 -T5.0 -j1 -q$DIR_PATH_DB -Qtop8000 -C0 -O$DIR_PATH_OUT_DB -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_1_0_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt
+
+
+#For comparing to rar1:
+SAonGISA_main_v10_unix.o -Frar0 -u0 —P1 -T5.0 -j1 -q$DIR_PATH_QUERY -Qtop100 -C0 -O$DIR_PATH_OUT_QUERY -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_1_0_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt -B$DIR_PATH_OUT_DB/RarityScan0_ScoresPairs_windowslgth_30_2_order_1_0_top8000_top8000_notnorm_1invs__winCovType0_threshMut5.00_scoreByAbsMutualWrithe.txt
+
+
+
+#For comparing to rar2 we normalize (just to get the threshold hold level the same, really):
+SAonGISA_main_v10_unix.o -Frar0 -u0 -T2.0 -j1 -q$DIR_PATH_DB -Qtop8000 -C0 -O$DIR_PATH_OUT_DB -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_1_0_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt -z1
+
+SAonGISA_main_v10_unix.o -Frar0 -u0 —P1 -T2.0 -j1 -q$DIR_PATH_QUERY -Qtop100 -C0 -O$DIR_PATH_OUT_QUERY -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_1_0_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt -B$DIR_PATH_OUT_DB/RarityScan0_ScoresPairs_windowslgth_30_2_order_1_0_top8000_top8000_norm_1invs__winCovType0_threshMut5.00_scoreByAbsMutualWrithe.txt -z1
+
+
+
+
+————————————————————————————————————————————————————————————————————————————————————————————————————————
+RarityScan1(flavour: rar1)
+————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+
+#Test of normalization only using the writhe (run with -z0 too):
+SAonGISA_main_v10_unix.o -Frar1 -P0 -T-1.0 -j1 -C0 -O$DIR_PATH_OUT_QUERY -t0 -l30 -s2 -Dtop100 -I$DIR_PATH_OUT_QUERY/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top100_winCovType0_onlyDisjointPairs1.txt -q$DIR_PATH_QUERY -Qtop100 -E1 -z1
+
+
+#For comparing to rar0 (top8000 vs top8000, and only using the writhe in rar1 too):
+SAonGISA_main_v10_unix.o -Frar1 -P0 -T2.0 -j1 -C0 -O$DIR_PATH_OUT_DB -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt -q$DIR_PATH_DB -Qtop8000 -E1 -z1
+
+
+#For comparing to rar2 (top8000 vs top8000; here using also the avg crossing number):
+#step1: 
+SAonGISA_main_v10_unix.o -Frar1 -P0 -T2.0 -j1 -C0 -O$DIR_PATH_OUT_DB -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt -q$DIR_PATH_DB -Qtop8000 -E2 -z1
+
+#step2: top100 vs top8000 background:
+SAonGISA_main_v10_unix.o -Frar1 -P1 -T2.0 -j1 -C0 -O$DIR_PATH_OUT_QUERY -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt -B$DIR_PATH_OUT_DB/RarityScan1_ScoresPairs_windowslgth_30_2_order_1_1_top8000_top8000_1wins_norm_2invs_0mmsPairs_20bins1_winCovType0_threshMut2.00.txt -q$DIR_PATH_QUERY -Qtop100 -E2 -z1
+
+
+————————————————————————————————————————————————————————————————————————————————————————————————————————
+RarityScan2 (flavour: rar2)
+————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+
+#Test of normalization only using the writhe (run with -z0 too):
+#Step0, gen the inv’s:
+SAonGISA_main_v10_unix.o -d$DIR_PATH_QUERY -Dtop100 -f1 -o2 -a1 -C0 -O$DIR_PATH_OUT_QUERY -t0 -g1 -G0 -l30 -s2 -FmakeDB
+
+SAonGISA_main_v10_unix.o -d$DIR_PATH_QUERY -Dtop100 -f1 -o2 —a1 -j1 -C0 -O$DIR_PATH_OUT_QUERY -t0 -g0 -G1 -l30 -s2 -FmakeDB
+
+#Test of normalization only using the writhe (run with -z0 too):
+#Step1: 
+SAonGISA_main_v10_unix.o -Frar2 -P0 -T-1.0 -M1 -j1 -C0 -O$DIR_PATH_OUT_QUERY -t0 -l30 -s2 -Dtop100 -i$DIR_PATH_OUT_QUERY/Invariants_windowlgth_30_2_order_2_1_computeGI_windows_top100_winCovType0.txt -I$DIR_PATH_OUT_QUERY/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top100_winCovType0_onlyDisjointPairs1.txt -q$DIR_PATH_QUERY -Qtop100 -E1 -z1
+
+#For comparing to rar0:
+#Step0, gen the inv’s:
+SAonGISA_main_v10_unix.o -d$DIR_PATH_DB -Dtop8000 -f1 -o2 —a1 -C0 -O$DIR_PATH_OUT_DB -t0 -g1 -G0 -l30 -s2 -FmakeDB
+
+SAonGISA_main_v10_unix.o -d$DIR_PATH_DB -Dtop8000 -f1 -o2 —a1 —j1 -C0 -O$DIR_PATH_OUT_DB -t0 -g0 -G1 -l30 -s2 -FmakeDB
+
+#step1: 
+SAonGISA_main_v10_unix.o -Frar2 -P0 -T2.0 -M1 -j1 -C0 -O$DIR_PATH_OUT_DB -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt -i$DIR_PATH_OUT_DB/Invariants_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0.txt -q$DIR_PATH_DB -Qtop8000 -E1 -X0 -e5 -x0 -z1
+
+
+#step2 (if the Pvalues are needed … they aren’t for the comparison):
+SAonGISA_main_v10_unix.o -Frar2 -P1 -T2.0 -M1 -j1 -C0 -O$DIR_PATH_OUT_QUERY -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt -i$DIR_PATH_OUT_DB/Invariants_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0.txt 
+-B$DIR_PATH_OUT_DB/RarityScan2_ScoresPairs_windowslgth_30_2_order_2_1_top8000_top8000_1wins_norm_5invs_0mms_1invsPairs_0mmsPairs_20bins10_winCovType0_threshMut2.00.txt
+-b$DIR_PATH_OUT_DB/RarityScan2_Scores_windowslgth_30_2_order_2_1_top8000_top8000_1wins_norm_5invs_0mms_1invsPairs_0mmsPairs_20bins10_winCovType0_threshMut2.00.txt
+-q$DIR_PATH_QUERY -Qtop100 -E1 -X0 -e5 -x0 -z1
+
+
+
+#For comparing to rar1 (use 5 inv’s for single windows and 2 order 1’s for pairs):
+#step1
+SAonGISA_main_v10_unix.o -Frar2 -P0 -T2.0 -M1 -j1 -C0 -O$DIR_PATH_OUT_DB -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt -i$DIR_PATH_OUT_DB/Invariants_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0.txt -q$DIR_PATH_DB -Qtop8000 -E2 -X0 -e5 -x0 -z1
+
+#step2
+SAonGISA_main_v10_unix.o -Frar2 -P1 -T2.0 -M1 -j1 -C0 -O$DIR_PATH_OUT_QUERY -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt -i$DIR_PATH_OUT_DB/Invariants_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0.txt -B$DIR_PATH_OUT_DB/RarityScan2_ScoresPairs_windowslgth_30_2_order_2_1_top8000_top8000_1wins_norm_5invs_0mms_2invsPairs_0mmsPairs_20bins10_winCovType0_threshMut2.00.txt -b$DIR_PATH_OUT_DB/RarityScan2_Scores_windowslgth_30_2_order_2_1_top8000_top8000_1wins_norm_5invs_0mms_2invsPairs_0mmsPairs_20bins10_winCovType0_threshMut2.00.txt q$DIR_PATH_QUERY -Qtop100 -E2 -X0 -e5 -x0 -z1
+
+
+
+
+
+#Experiment: Using all 15 inv’s in the single window part and both order 1’s for the pairs; use window size 40 and step 5:
+#step0:
+SAonGISA_main_v10_unix.o -d$DIR_PATH_DB -Dtop8000 -f1 -o2 -a1 -C0 -O$DIR_PATH_OUT_DB -t0 -g0 -G1 -j0 -l40 -s5 -FmakeDB
+
+#Step 1:
+SAonGISA_main_v10_unix.o -Frar2 -P0 -T2.0 -M1 -C0 -O$DIR_PATH_OUT_DB -t0 -l40 -s5 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_40_5_order_2_1_computeGI_windows_top8000_winCovType0_onlyDisjointPairs0.txt -q$DIR_PATH_DB -Qtop8000 -e15 -x3 -E2 -X0 -z1
+
+#Step2:
+SAonGISA_main_v10_unix.o -Frar2 -P1 -T2.0 -M1 -C0 -O$DIR_PATH_QUERY -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0_onlyDisjointPairs0.txt -b$DIR_PATH_OUT_DB/RarityScan2_Scores_windowslgth_30_2_order_2_1_3strs_top8000_1wins_norm_5invs_1mms_1invsPairs_0mmsPairs_20bins01_winCovType1_threshMut2.00.txt -B$DIR_PATH_OUT_DB/RarityScan2_ScoresPairs_windowslgth_30_2_order_2_1_top8000_top8000_1wins_norm_5invs_1mms_1invsPairs_0mmsPairs_20bins01_winCovType1_threshMut2.00.txt -q$DIR_PATH_QUERY -Qtop100 -e15 -x5 -E2 -X0 -z1
