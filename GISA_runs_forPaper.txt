@@ -28,7 +28,15 @@ DIR_PATH_DB=/your/path/to//Kinemage/PDBfiles/top8000_chains_70
 DIR_PATH_OUT_DB=/your/path/to/GISA/output/top8000
 DB_NAME=top8000
 
+#For Pisces hi-res set:
+DIR_PATH_DB=/isdata/kroghgrp/tkj375/data/structural/Pisces/cullpdb_pc20_res1.8_R0.25_d200115/piscesChains
+DIR_PATH_OUT_DB=/isdata/kroghgrp/tkj375/GISA_unix/results/v10/Pisces/cullpdb_pc20_res1.8_R0.25_d200115
+DB_NAME=PiscesSet
 
+#For Pisces lo-res set:
+DIR_PATH_DB=/isdata/kroghgrp/tkj375/data/structural/Pisces/cullpdb_pc20_res3.0_R1.0_d200123/piscesChains
+DIR_PATH_OUT_DB=/isdata/kroghgrp/tkj375/GISA_unix/results/v10/Pisces/cullpdb_pc20_res3.0_R1.0_d200123
+DB_NAME=PiscesLoResSet
 
 ————————————————————————————————————————————————————————————————————————————————————————————————————————
 GISA runs
