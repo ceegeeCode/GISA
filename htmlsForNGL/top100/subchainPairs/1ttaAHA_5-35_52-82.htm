@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <pre>
+               1ttaAHA;5-35;52-82; w:-0.938781400138
+</pre>
+  <script src="https://unpkg.com/ngl"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+            var stage = new NGL.Stage("viewport",  {backgroundColor:"white"});
+            var schemeId = NGL.ColormakerRegistry.addSelectionScheme([
+  ["blue", "5-35"],
+  ["red", "52-82"], 
+  ["khaki", "*"]
+  ]);
+  
+stage.loadFile("rcsb://1ttaAH").then(function (o) {
+  o.addRepresentation("cartoon",  {sele: ":A", color: schemeId});  // pass schemeId here
+  o.autoView();
+});
+
+
+});
+
+
+  </script>
+  <div id="viewport" style="width:600px; height:500px;"></div>
+</body>
+</html>
