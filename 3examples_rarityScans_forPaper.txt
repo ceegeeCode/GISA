@@ -2,10 +2,10 @@
 
 This file contains examples of explicit commands needed for a run of each of the three rarity scans.
 
-The implementation is made so that when a particular scan is done, the user is asked if he/she wants to run another query set against the back ground (this will run without reloading the back ground!); this continues until the user has no further very sets to be run.
+The implementation is made so that when a particular scan is done, the user is asked if s/he wants to run another query set against the background (this will run without reloading the background!); this continues until the user has no further very sets to be run.
 
-OBS: IF YOU COPY THE COMMADS BELOW DIRECTLY ONTO A COMMAND LINE, BE VERY CAREFUL TO CHECK THAT ALL THE PARAMETERS ARE READ IN PROPERLY (WHEN YOU RUN THE A COMMAND THE CODE WILL INFORM YOU ABOUT 
-WHICH PARAMTERS WERE READ IN ADN A T WHAT VALUE)
+OBS: IF YOU COPY THE COMMANDS BELOW DIRECTLY ONTO A COMMAND LINE, BE VERY CAREFUL TO CHECK THAT ALL THE PARAMETERS ARE READ IN PROPERLY (WHEN YOU RUN THE A COMMAND THE CODE WILL INFORM YOU ABOUT 
+WHICH PARAMETERS WERE READ IN AND AT WHAT VALUE)
 
 ————————————————————————————————————————————————————————————————————————————————————————————————————————
 Compilation
@@ -19,7 +19,7 @@ gcc SAonGISA_main_v10_unix.c -o SAonGISA_main_v10_unix.o SAonGISA_v10_unix.c GIS
 Paths to files and output
 ————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-PDB files for back ground: top8000
+PDB files for background: top8000
 Query PDB files: top100
 
 
@@ -39,13 +39,11 @@ SAonGISA_main_v10_unix.o -d$DIR_PATH_DB -Dtop8000 -f0 -o1 —a1 -C0 -O$DIR_PATH_
 
 
 Step1: Run the scan of the query set against the database. To this end there are two version of rar0: in one only the max-mutual writhe per structure is used, and the scan can be run directly, while in the second rather all windows pairs 
-having a abs-mutual writhe above a set threshold is used, and a background of scores of the database against itself must first be created (so as to ascribe probabilities/rarity factors of the query structures relative to the back ground):
+having a abs-mutual writhe above a set threshold is used, and a background of scores of the database against itself must first be created (so as to ascribe probabilities/rarity factors of the query structures relative to the background):
 
 
 Step1A. Use only the max-abs-mutual writhe per structure (-u1); as we only use the max-value cases no threshold on mutual writhe is needed (-T0):
 SAonGISA_main_v10_unix.o -Frar0 -u1 -q$DIR_PATH_QUERY -Qtop100 -C0 -O$DIR_PATH_OUT_QUERY -t0 -l30 -s2 -Dtop8000 -T0 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_1_0_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt
-
-SAonGISA_main_v10_unix.o -Frar0 -u1 -q$DIR_PATH_DB -Qtop8000 -C0 -O$DIR_PATH_OUT_DB -t0 -l30 -s2 -Dtop8000 -T0 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_1_0_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt
 
 #.. and keep running by providing another query set, if wanted.
 
@@ -55,10 +53,10 @@ SAonGISA_main_v10_unix.o -Frar0 -u1 -q$DIR_PATH_QUERY -Qtop100 -C0 -O$DIR_PATH_O
 
 
 
-Step1B. Use the abs-mutual writhe per structure (-u0). Create the back ground of scores to be used to query e.g top100 against top8000. So we first query top8000 against itself; threshold on mutual writhe is set to 10 (-T10):
+Step1B. Use the abs-mutual writhe per structure (-u0). Create the background of scores to be used to query e.g top100 against top8000. So we first query top8000 against itself; threshold on mutual writhe is set to 10 (-T10):
 SAonGISA_main_v10_unix.o -Frar0 -u0 -q$DIR_PATH_DB -Qtop8000 -C0 -O$DIR_PATH_OUT_DB -t0 -l30 -s2 -Dtop8000 -T10 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_1_0_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt
 
-Step2B: Run any query set against the created back ground. We use top100 as an example; we keep  a threshold on mutual writhe is set to 10 (-T10). We want to have “p-values” computed (how prob a query structure is on the provided back ground): 
+Step2B: Run any query set against the created background. We use top100 as an example; we keep  a threshold on mutual writhe is set to 10 (-T10). We want to have “p-values” computed (how prob a query structure is on the provided background): 
 SAonGISA_main_v10_unix.o -Frar0 -u0 —P1 -O$DIR_PATH_OUT_QUERY -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_1_0_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt -B$DIR_PATH_OUT_DB/RarityScan0_ScoresPairs_windowslgth_30_2_order_1_0_top8000_top8000_notnorm_1invs__winCovType0_threshMut10.00_scoreByAbsMutualWrithe.txt -q$DIR_PATH_QUERY -Qtop100  -C0 -t0 -l30 -s2 -T10.0
 
 #.. and keep running by providing another query set, if wanted.
@@ -72,13 +70,13 @@ Step0: Create database of Gauss integrals order 2 (int abs version, -a1) on disj
 SAonGISA_main_v10_unix.o -d$DIR_PATH_DB -Dtop8000 -f1 -o2 -a1 —C0 -O$DIR_PATH_OUT_DB -t0 -g0 -G1 -l30 -s2 -j1 -FmakeDB
 
 
-#Step 1: Create the back ground of scores on which to assess any query set. So we query top8000 against itself. In this example we use also the average crossing number (abs value version of writhe). 
+#Step 1: Create the background of scores on which to assess any query set. So we query top8000 against itself. In this example we use also the average crossing number (abs value version of writhe). 
 So number of entries for pairs is set to 2 (-E2), and we normalize the values (-z1). We set a threshold on the mutual values to avoid “uninteresting window pairs”; we normalize the invariant values to 
 mean 0 and std dev 1 since we se two Gauss Integrals here (their scales may be rather different); for the same we reason, the threshold is set rather low as compared to a linking number of one (the mutual 
 writhe would be +/-4*pi there). We only use disjoint window pairs (-j1):
 SAonGISA_main_v10_unix.o -Frar1 -P0 -T2.0 -j1 -C0 -O$DIR_PATH_OUT_DB -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt -q$DIR_PATH_DB -Qtop8000 -E2 -z1
 
-#Step2: Run a query against the back ground. Since we have the back ground of scores at hand now, we can call for having a probability (relative to the back ground) ascribed to each query structure (-P1):
+#Step2: Run a query against the background. Since we have the background of scores at hand now, we can call for having a probability (relative to the background) ascribed to each query structure (-P1):
 SAonGISA_main_v10_unix.o -Frar1 -P1 -T2.0 -j1 -C0 -O$DIR_PATH_OUT_QUERY -B$DIR_PATH_OUT_DB/RarityScan1_ScoresPairs_windowslgth_30_2_order_1_1_top8000_top8000_1wins_norm_2invs_0mmsPairs_20bins1_winCovType0_threshMut2.00.txt -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt -q$DIR_PATH_QUERY -Qtop100 -E2 -z1
 
 #.. and keep running by providing another query set, if wanted.
@@ -104,8 +102,8 @@ SAonGISA_main_v10_unix.o -d$DIR_PATH_DB -Dtop8000 -f1 -o2 —a1 -C0 -O$DIR_PATH_
 SAonGISA_main_v10_unix.o -Frar2 -P0 -C0 -O$DIR_PATH_OUT_DB -t0 -l30 -s2 -Dtop8000 -i$DIR_PATH_OUT_DB/Invariants_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0.txt -q$DIR_PATH_DB -Qtop8000 -e5 -x1 -z1
 
 
-#Step 2: query top100 against the top8000 back ground:
-SAonGISA_main_v10_unix.o -Frar2 -P1 -C0 -O$DIR_PATH_OUT_QUERY -b$DIR_PATH_OUT_DB/RarityScan2_Scores_windowslgth_30_2_order_2_1_top8000_top8000_1wins_norm_5invs_1mms_20bins01_winCovType1.txt -t0 -l30 -s2 -Dtop8000 -i$DIR_PATH_OUT_DB/Invariants_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0.txt -q$DIR_PATH_QUERY -Qtop100 -e5 -x1 -z1
+#Step 2: query top100 against the top8000 background:
+SAonGISA_main_v10_unix.o -Frar2 -P1 -C0 -O$DIR_PATH_OUT_QUERY -b$DIR_PATH_OUT_DB/RarityScan2_Scores_windowslgth_30_2_order_2_1_top8000_top8000_1wins_norm_5invs_1mms_20bins10_winCovType0.txt -t0 -l30 -s2 -Dtop8000 -i$DIR_PATH_OUT_DB/Invariants_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0.txt -q$DIR_PATH_QUERY -Qtop100 -e5 -x1 -z1
 
 
 #.. and keep running by providing another query set, if wanted.
@@ -117,12 +115,12 @@ SAonGISA_main_v10_unix.o -Frar2 -P1 -C0 -O$DIR_PATH_OUT_QUERY -b$DIR_PATH_OUT_DB
 SAonGISA_main_v10_unix.o -d$DIR_PATH_DB -Dtop100 -f1 -o2 —a1 -C0 -O$DIR_PATH_OUT_DB -t0 -g0 -G1 -j0 -l30 -s2 -FmakeDB
 
 
-#Step 1:
-SAonGISA_main_v10_unix.o -Frar2 -P0 -T2.0 -M1 -C0 -O$DIR_PATH_OUT_DB -t0 -l30 -s2 -Dtop100 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0_onlyDisjointPairs0.txt -i$DIR_PATH_OUT_DB/Invariants_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0.txt -q$DIR_PATH_DB -Qtop8000 -e5 -x1 -E1 -X0 -z1
+#Step 1: match the DB against itself (as before, this will generate a background distribution of scores against which any query can be run):
+SAonGISA_main_v10_unix.o -Frar2 -P0 -T2.0 -M1 -C0 -O$DIR_PATH_OUT_DB -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0_onlyDisjointPairs0.txt -i$DIR_PATH_OUT_DB/Invariants_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0.txt -q$DIR_PATH_DB -Qtop8000 -e5 -x1 -E1 -X0 -z1
 
 
 #Step2:
-SAonGISA_main_v10_unix.o -Frar2 -P1 -T2.0 -M1 -C0 -O$DIR_PATH_QUERY -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0_onlyDisjointPairs0.txt -i$DIR_PATH_OUT_DB/Invariants_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0.txt -b$DIR_PATH_OUT_DB/RarityScan2_Scores_windowslgth_30_2_order_2_1_top8000_top8000_1wins_norm_5invs_1mms_1invsPairs_0mmsPairs_20bins10_winCovType0_threshMut2.00.txt -B$DIR_PATH_OUT_DB/RarityScan2_ScoresPairs_windowslgth_30_2_order_2_1_top8000_top8000_1wins_norm_5invs_1mms_1invsPairs_0mmsPairs_20bins10_winCovType0_threshMut2.00.txt -q$DIR_PATH_QUERY -Qtop100 -e5 -x2 -E1 -X0 -z1
+SAonGISA_main_v10_unix.o -Frar2 -P1 -T2.0 -M1 -C0 -O$DIR_PATH_OUT_QUERY -t0 -l30 -s2 -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0_onlyDisjointPairs0.txt -i$DIR_PATH_OUT_DB/Invariants_windowlgth_30_2_order_2_1_computeGI_windows_top8000_winCovType0.txt -b$DIR_PATH_OUT_DB/RarityScan2_Scores_windowslgth_30_2_order_2_1_top8000_top8000_1wins_norm_5invs_1mms_1invsPairs_0mmsPairs_20bins10_winCovType0_threshMut2.00.txt -B$DIR_PATH_OUT_DB/RarityScan2_ScoresPairs_windowslgth_30_2_order_2_1_top8000_top8000_1wins_norm_5invs_1mms_1invsPairs_0mmsPairs_20bins10_winCovType0_threshMut2.00.txt -q$DIR_PATH_QUERY -Qtop100 -e5 -x1 -E1 -X0 -z1
 
 
 #.. and keep running by providing another query set, if wanted.
