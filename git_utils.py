@@ -3,6 +3,18 @@
 Created on Sun Mar 15 17:47:52 2015
 
 @author: Christian Grønbæk
+
+Pre-cursor to GISA C-code (github.com/ceegeeCode/GISA). This module contains the basic writhe computations (for line segments of a polygonal
+curve) and some other utils. 
+
+If you use this code 
+
+0) it'll be "as is" -- I will have no time for support. The real alternative is to use the GISA C-code (github repo: see above)
+
+1) To cite it: "C.Grønbæk., T.Hamelryck, P.Røgen: "GISA: Using Gauss integrals to identify rare conformations in protein structures", TO APPEAR. 
+
+Once the paper is published, cite it with ref to that publication.  
+
 """
 
 import math
