@@ -9,9 +9,13 @@ curve) and some other utils.
 
 If you use this code 
 
-0) it'll be "as is" -- I will have no time for support. The real alternative is to use the GISA C-code (github repo: see above)
+0) it'll be "as is" -- I will have no time for support. The alternative is to use the GISA C-code (github repo: see above)
 
-1) To cite it: "C.Grønbæk., T.Hamelryck, P.Røgen: "GISA: Using Gauss integrals to identify rare conformations in protein structures", TO APPEAR. 
+1) Cite it by referring
+
+    a) the Github repository ceegeeCode/GISA
+    and
+    b) the paper "C.Grønbæk., T.Hamelryck, P.Røgen: "GISA: Using Gauss integrals to identify rare conformations in protein structures", TO APPEAR. 
 
 Once the paper is published, cite it with ref to that publication.  
 
