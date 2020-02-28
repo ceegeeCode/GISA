@@ -19,3 +19,7 @@ Similar files for the first version of GISA (no SAonGISA files).
 Branch develop:
 
 Files in development stage.
+
+Branch pythonPrecursor:
+
+Python implementation of a recursion for computing the Gauss Integrals up to order 3 (incl). The code consists in three modules of which git_utils contains the basic computation of writhe of two line segments (by means of Gauss-Bonnet); gitP contains the implementation of the recursion (and much else); git_bf is just an implementation of the Gauss Integrals directly off their definitions, i.e. by brute force. The latter was used only for checking the validity of the recursion and the implementation of it. 
