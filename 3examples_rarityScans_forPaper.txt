@@ -39,7 +39,7 @@ SAonGISA_main_v10_unix.o -d$DIR_PATH_DB -Dtop8000 -f0 -o1 —a1 -C0 -O$DIR_PATH_
 
 
 Step1: Run the scan of the query set against the database. To this end there are two version of rar0: in one only the max-mutual writhe per structure is used, and the scan can be run directly, while in the second rather all windows pairs 
-having a abs-mutual writhe above a set threshold is used, and a background of scores of the database against itself must first be created (so as to ascribe probabilities/rarity factors of the query structures relative to the background):
+having a abs-mutual writhe above a set threshold are used, and a background of scores of the database against itself must first be created (so as to ascribe probabilities/rarity factors of the query structures relative to the background):
 
 
 Step1A. Use only the max-abs-mutual writhe per structure (-u1); as we only use the max-value cases no threshold on mutual writhe is needed (-T0):
@@ -57,7 +57,7 @@ Step1B. Use the abs-mutual writhe per structure (-u0). Create the background of 
 SAonGISA_main_v10_unix.o -Frar0 -u0 -q$DIR_PATH_DB -Qtop8000 -C0 -O$DIR_PATH_OUT_DB -t0 -l30 -s2 -Dtop8000 -T10 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_1_0_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt
 
 Step2B: Run any query set against the created background. We use top100 as an example; we keep  a threshold on mutual writhe is set to 10 (-T10). We want to have “p-values” computed (how prob a query structure is on the provided background): 
-SAonGISA_main_v10_unix.o -Frar0 -u0 —P1 -O$DIR_PATH_OUT_QUERY -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_1_0_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt -B$DIR_PATH_OUT_DB/RarityScan0_ScoresPairs_windowslgth_30_2_order_1_0_top8000_top8000_notnorm_1invs__winCovType0_threshMut10.00_scoreByAbsMutualWrithe.txt -q$DIR_PATH_QUERY -Qtop100  -C0 -t0 -l30 -s2 -T10.0
+SAonGISA_main_v10_unix.o -Frar0 -u0 -P1 -O$DIR_PATH_OUT_QUERY -Dtop8000 -I$DIR_PATH_OUT_DB/Invariants_Pairs_windowlgth_30_2_order_1_0_computeGI_windows_top8000_winCovType0_onlyDisjointPairs1.txt -B$DIR_PATH_OUT_DB/RarityScan0_ScoresPairs_windowslgth_30_2_order_1_0_top8000_top8000_notnorm_1invs__winCovType0_threshMut10.00_scoreByAbsMutualWrithe.txt -q$DIR_PATH_QUERY -Qtop100  -C0 -t0 -l30 -s2 -T10.0
 
 #.. and keep running by providing another query set, if wanted.
 
