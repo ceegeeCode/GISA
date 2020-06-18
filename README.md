@@ -1,7 +1,7 @@
 # GISA
-C code and more for the GISA algorithm. All related to paper
+C code and more for the GISA algorithm. All related to paper (please cite upon use of this code)
 
-"C.Grønbæk., T.Hamelryck, P.Røgen: "GISA: Using Gauss integrals to identify rare conformations in protein structures", TO APPEAR."
+Grønbæk C, Hamelryck T, Røgen P. 2020. GISA: using Gauss Integrals to identify rare conformations in protein structures. PeerJ 8:e9159 https://doi.org/10.7717/peerj.9159
 
 The repository contents are:
 
